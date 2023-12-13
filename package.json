@@ -9,6 +9,7 @@
   "author": "MegaJohnny",
   "license": "ISC",
   "dependencies": {
-    "tsx": "^4.6.2"
+    "tsx": "^4.6.2",
+    "wretch": "^2.7.1"
   }
 }
