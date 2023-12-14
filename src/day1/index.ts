@@ -19,10 +19,12 @@ function getDigitAt(line: string, index: number): number | undefined {
     return Number.parseInt(char);
   }
 
-  for (const [digitIndex, textDigit] of textDigits.entries()) {
-    if (line.startsWith(textDigit, index)) {
-      return digitIndex + 1;
-    }
+  const matchedTextDigit = textDigits.findIndex((digit) =>
+    line.startsWith(digit, index)
+  );
+
+  if (matchedTextDigit !== -1) {
+    return matchedTextDigit + 1;
   }
 
   return undefined;
