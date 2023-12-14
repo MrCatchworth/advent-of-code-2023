@@ -23,8 +23,6 @@ function doesBallCountExceed(
 
 const input = await getPuzzleInput(2);
 
-console.log(input);
-
 let total = 0;
 
 for (const line of input.split("\n")) {
