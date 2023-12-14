@@ -22,7 +22,7 @@ export async function getPuzzleInput(day: number) {
       .get()
       .text();
 
-    writeFile(dayCachedPath, fetchedInput);
+    await writeFile(dayCachedPath, fetchedInput);
 
     return fetchedInput;
   }
