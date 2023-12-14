@@ -1,24 +1,37 @@
 import { getPuzzleInput } from "../util/getPuzzleInput.js";
 
 const gameIdRegex = /^Game (\d+): /;
-const redCountRegex = /(\d+) red/g;
-const greenCountRegex = /(\d+) green/g;
-const blueCountRegex = /(\d+) blue/g;
+const ballCountRegex = /(\d+) (red|green|blue)/g;
 
-function doesBallCountExceed(
-  line: string,
-  regex: RegExp,
-  maximum: number
-): boolean {
-  for (const match of line.matchAll(regex)) {
+function getHighestBallCounts(line: string): {
+  red: number;
+  green: number;
+  blue: number;
+} {
+  const result = {
+    red: 0,
+    green: 0,
+    blue: 0,
+  };
+
+  for (const match of line.matchAll(ballCountRegex)) {
     const ballCount = Number.parseInt(match[1]);
+    const ballColour = match[2] as "red" | "green" | "blue";
 
-    if (ballCount > maximum) {
-      return true;
+    if (ballColour === "red" && ballCount > result.red) {
+      result.red = ballCount;
+    }
+    if (ballColour === "green" && ballCount > result.green) {
+      result.green = ballCount;
+    }
+    if (ballColour === "blue" && ballCount > result.blue) {
+      result.blue = ballCount;
     }
   }
 
-  return false;
+  ballCountRegex.lastIndex = 0;
+
+  return result;
 }
 
 const input = await getPuzzleInput(2);
@@ -30,19 +43,11 @@ for (const line of input.split("\n")) {
     continue;
   }
 
-  const gameId = Number.parseInt(gameIdRegex.exec(line)![1]);
+  const { red, green, blue } = getHighestBallCounts(line);
 
-  if (
-    !doesBallCountExceed(line, redCountRegex, 12) &&
-    !doesBallCountExceed(line, greenCountRegex, 13) &&
-    !doesBallCountExceed(line, blueCountRegex, 14)
-  ) {
-    total += gameId;
-  }
+  const power = red * green * blue;
 
-  redCountRegex.lastIndex = 0;
-  greenCountRegex.lastIndex = 0;
-  blueCountRegex.lastIndex = 0;
+  total += power;
 }
 
 console.log(total);
