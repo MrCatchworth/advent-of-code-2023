@@ -1,31 +1,54 @@
 import { getPuzzleInput } from "../util/getPuzzleInput.js";
 
+const textDigits = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+];
+
+function getDigitAt(line: string, index: number): number | undefined {
+  const char = line[index];
+
+  if (char >= "0" && char <= "9") {
+    return Number.parseInt(char);
+  }
+
+  for (const [digitIndex, textDigit] of textDigits.entries()) {
+    if (line.startsWith(textDigit, index)) {
+      return digitIndex + 1;
+    }
+  }
+
+  return undefined;
+}
+
 const input = await getPuzzleInput(1);
 
 let total = 0;
 
 for (const line of input.split("\n")) {
-  let digits: [first: string, last: string] | undefined;
+  let digits: [first: number, last: number] | undefined;
 
   for (let i = 0; i < line.length; i++) {
-    const char = line[i];
+    const digit = getDigitAt(line, i);
 
-    if (char < "0" || char > "9") continue;
+    if (digit === undefined) continue;
 
     if (!digits) {
-      digits = [char, char];
+      digits = [digit, digit];
     } else {
-      digits[1] = char;
+      digits[1] = digit;
     }
   }
 
   if (digits) {
-    const [firstValue, lastValue] = [
-      Number.parseInt(digits[0]),
-      Number.parseInt(digits[1]),
-    ];
-
-    const lineTotal = firstValue * 10 + lastValue;
+    const lineTotal = digits[0] * 10 + digits[1];
 
     total += lineTotal;
   }
