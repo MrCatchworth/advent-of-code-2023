@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Advent of Code 2023 solutions",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +12,8 @@
   "dependencies": {
     "tsx": "^4.6.2",
     "wretch": "^2.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4"
   }
 }
